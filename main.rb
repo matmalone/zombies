@@ -6,24 +6,24 @@ require_relative 'util'
 
 puts "Welcome to zombies!\n"
 
-map = Map.new(10, 10)
+map = Map.new(30, 30)
 
-zombie1 = Zombie.new(:zombie1, map, {:char => 'Z'})
-zombie2 = Zombie.new(:zombie2, map, {:char => 'Z'})
-zombie3 = Zombie.new(:zombie3, map, {:char => 'Z'})
+zombie1 = Zombie.new(:zombie1, map)
+zombie2 = Zombie.new(:zombie2, map)
+zombie3 = Zombie.new(:zombie3, map)
 
 human1 = Human.new(:human1, map, {:char => '1'})
 human2 = Human.new(:human2, map, {:char => '2'})
 
 map.add(zombie1, 2, 0)
-map.add(zombie2, 8, 1)
-map.add(zombie3, 4, 9)
+map.add(zombie2, 20, 10)
+map.add(zombie3, 9, 4)
 
-map.add(human1, 2, 4)
-map.add(human2, 5, 3)
+map.add(human1, 2, 8)
+map.add(human2, 5, 6)
 
-(0..10).each do |i|
+(0..100).each do |i|
   puts map
   map.turn
-  sleep(1)
+  sleep(0.1)
 end

@@ -3,13 +3,13 @@ class Entity
   def initialize(id, map, opts = {})
     @id = id
     @opts = opts
-    @opts[:char] ||= 'E'
+    @char = @opts[:char]
     @map = map
     @x = @y = nil
   end
 
   def char
-    return @opts[:char]
+    @char || 'E'
   end
 
   def on_map?
@@ -36,6 +36,10 @@ def move(gravity_x, gravity_y)
     new_x = delta_x + @x
     new_y = delta_y + @y
 
+    # collision detection
+    if @map.map[new_x][new_y] then return false end
+
+    # boundary detection
     if new_x > @map.width - 1
       new_x = @map.width - 1
     end
@@ -54,6 +58,11 @@ def move(gravity_x, gravity_y)
 end
 
 class Zombie < Entity
+  def initialize(id, map, opts = {})
+    super
+    @char ||= 'Z'
+  end
+
   def turn()
     super
 
@@ -74,7 +83,7 @@ class Zombie < Entity
       end
     end
 
-    dbg("targeting #{target.id} at [#{target.x}][#{target.y}] distance #{  target_dist}")
+    # dbg("targeting #{target.id} at [#{target.x}][#{target.y}] distance #{  target_dist}")
 
     gravity_x = target.x - @x
     gravity_y = target.y - @y
@@ -83,6 +92,11 @@ class Zombie < Entity
 end
 
 class Human < Entity
+  def initialize(id, map, opts = {})
+    super
+    @char ||= 'H'
+  end
+
   def turn()
     super
 
