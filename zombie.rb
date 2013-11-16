@@ -64,9 +64,17 @@ class Human < Entity
 
     dbg("delta_x: #{delta_x}, delta_y: #{delta_y}")
 
-    # still need to check for the boundary
+    new_x = delta_x + @x
+    new_y = delta_y + @y
 
-    @map.move(self, @x + delta_x, @y + delta_y)
+    if new_x > @map.width - 1
+      new_x = @map.width - 1
+    end
+    if new_y > @map.height - 1
+      new_y > @map.height - 1
+    end
+
+    @map.move(self, new_x, new_y)
   end
 
 end

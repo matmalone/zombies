@@ -13,9 +13,9 @@ zombie2 = Zombie.new(:zombie2, map, {:char => 'Z'})
 human1 = Human.new(:human1, map, {:char => 'H'})
 
 map.add(zombie1, 0, 0)
-map.add(zombie2, 1, 9)
+map.add(zombie2, 1, 2)
 
-map.add(human1, 5, 4)
+map.add(human1, 8, 4)
 
 puts map
 
