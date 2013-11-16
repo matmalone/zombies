@@ -1,5 +1,13 @@
 class MapBoundaryError < RuntimeError
 end
+class MapCollisionError < RuntimeError
+end
+
+def distance(x1, y1, x2, y2)
+  dx = (x2 - x1);
+  dy = (y2 - y1);
+  dist = dx * dx + dy * dy;
+end
 
 class Map
   attr_reader :height, :width, :map
@@ -23,9 +31,6 @@ class Map
   end
 
   def pos(entity, x, y)
-    if entity.on_map?
-      @map[entity.x][entity.y] = nil
-    end
 
     # bounds checking
     if x >= @width || x < 0
@@ -33,6 +38,15 @@ class Map
     end
     if y >= @height || y < 0
       raise MapBoundaryError.new("y out of bounds")
+    end
+
+    # collision detection
+    if @map[x][y] && @map[x][y] != entity
+      raise MapCollisionError.new("#{entity.id} moved to collide with #{@map[x][y].id}")
+    end
+
+    if entity.on_map?
+      @map[entity.x][entity.y] = nil
     end
 
     @map[x][y] = entity
