@@ -15,8 +15,14 @@ human1 = Human.new(:human1, map, {:char => 'H'})
 map.add(zombie1, 0, 0)
 map.add(zombie2, 1, 9)
 
-map.add(human1, 6, 7)
+map.add(human1, 5, 4)
 
 puts map
 
 map.turn
+
+puts map
+
+map.turn
+
+puts map

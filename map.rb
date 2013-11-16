@@ -2,7 +2,7 @@ class MapBoundaryError < RuntimeError
 end
 
 class Map
-  attr_accessor :height, :width, :map
+  attr_reader :height, :width, :map
   def initialize(height, width)
     @height = height
     @width = width
@@ -49,7 +49,7 @@ class Map
 
 
   def to_s
-    s = ''
+    s = "\n"
 
     for y in (@height - 1).downto(0)
       for x in 0..(@width - 1)

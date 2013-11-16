@@ -1,5 +1,5 @@
 class Entity
-  attr_accessor :id, :x, :y
+  attr_reader :id, :x, :y
   def initialize(id, map, opts = {})
     @id = id
     @opts = opts
@@ -26,7 +26,7 @@ class Entity
   end
 
   def dbg(msg)
-    puts "#{@id}: #{msg}\n"
+    # puts "#{@id}: #{msg}\n"
   end
 
 end
@@ -66,7 +66,7 @@ class Human < Entity
 
     # still need to check for the boundary
 
-    pos(@x + delta_x, @y + delta_y)
+    @map.move(self, @x + delta_x, @y + delta_y)
   end
 
 end
