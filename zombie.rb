@@ -76,7 +76,9 @@ class Zombie < Entity
 
     dbg("targeting #{target.id} at [#{target.x}][#{target.y}] distance #{  target_dist}")
 
-    # move(gravity_x, gravity_y)
+    gravity_x = target.x - @x
+    gravity_y = target.y - @y
+    move(gravity_x, gravity_y)
   end
 end
 

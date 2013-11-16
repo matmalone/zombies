@@ -10,12 +10,14 @@ map = Map.new(10, 10)
 
 zombie1 = Zombie.new(:zombie1, map, {:char => 'Z'})
 zombie2 = Zombie.new(:zombie2, map, {:char => 'Z'})
+zombie3 = Zombie.new(:zombie3, map, {:char => 'Z'})
 
 human1 = Human.new(:human1, map, {:char => '1'})
 human2 = Human.new(:human2, map, {:char => '2'})
 
-map.add(zombie1, 3, 0)
-map.add(zombie2, 4, 2)
+map.add(zombie1, 2, 0)
+map.add(zombie2, 8, 1)
+map.add(zombie3, 4, 9)
 
 map.add(human1, 2, 4)
 map.add(human2, 5, 3)
