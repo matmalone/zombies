@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 
-require 'map'
-require 'zombie'
+require_relative 'map'
+require_relative 'zombie'
 
 puts "Welcome to zombies!\n"
 
