@@ -1,12 +1,19 @@
 class Entity
-  def initialize(id, opts = {})
+  attr_accessor :id, :x, :y
+  def initialize(id, map, opts = {})
     @id = id
     @opts = opts
     @opts[:char] ||= 'E'
+    @map = map
+    @x = @y = nil
   end
 
   def char
     return @opts[:char]
+  end
+
+  def on_map?
+    return x != nil
   end
 
   def pos(x, y)
@@ -14,7 +21,7 @@ class Entity
     @y = y
   end
 
-  def turn(map)
+  def turn()
     dbg("i am at #{@x}:#{@y}")
   end
 
@@ -28,33 +35,40 @@ class Zombie < Entity
 end
 
 class Human < Entity
-  def turn(map)
+  def turn()
     super
 
-    heat_south = heat_north = heat_west = heat_east = 0
+    gravity_x = gravity_y = 0
 
-    for y in 0..(map.width - 1)
-      for x in 0..(map.height - 1)
-        if map.map[x][y].is_a? Zombie
+    for y in 0..(@map.width - 1)
+      for x in 0..(@map.height - 1)
+        if @map.map[x][y].is_a? Zombie
           dbg("#{@id}: found zombie at [#{x}][#{y}]")
           if x < @x
-            heat_west += 1
+            gravity_x += 1
           elsif x > @x
-            heat_east += 1
+            gravity_x -= 1
           end
           if y < @y
-            heat_south += 1
+            gravity_y += 1
           elsif y > @y
-            heat_north += 1
+            gravity_y -= 1
           end
         end
       end
     end
-    dbg("heat_east: #{heat_east}, heat_west: #{heat_west}, heat_south: #{heat_south}, heat_north: #{heat_north}")
+    dbg("gravity_x: #{gravity_x}, gravity_y: #{gravity_y}")
 
-    
+    delta_x = gravity_x != 0 ? gravity_x / gravity_x.abs : 0
+    delta_y = gravity_y != 0 ? gravity_y / gravity_y.abs : 0
 
-  end    
+    dbg("delta_x: #{delta_x}, delta_y: #{delta_y}")
+
+    # still need to check for the boundary
+
+    pos(@x + delta_x, @y + delta_y)
+  end
+
 end
 
 

@@ -19,6 +19,14 @@ class Map
   def add(entity, x, y)
     @entities << entity
 
+    move(entity, x, y)
+  end
+
+  def move(entity, x, y)
+    if entity.on_map?
+      @map[entity.x][entity.y] = nil
+    end
+
     # bounds checking
     if x >= @width || x < 0
       raise MapBoundaryError.new("x out of bounds")
@@ -35,7 +43,7 @@ class Map
 
   def turn
     @entities.each do |entity|
-      entity.turn(self)
+      entity.turn()
     end
   end
 
