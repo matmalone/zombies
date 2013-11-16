@@ -19,10 +19,10 @@ class Map
   def add(entity, x, y)
     @entities << entity
 
-    move(entity, x, y)
+    pos(entity, x, y)
   end
 
-  def move(entity, x, y)
+  def pos(entity, x, y)
     if entity.on_map?
       @map[entity.x][entity.y] = nil
     end

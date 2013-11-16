@@ -17,12 +17,8 @@ map.add(zombie2, 1, 2)
 
 map.add(human1, 8, 4)
 
-puts map
-
-map.turn
-
-puts map
-
-map.turn
-
-puts map
+(0..10).each do |i|
+  puts map
+  map.turn
+  sleep(1)
+end

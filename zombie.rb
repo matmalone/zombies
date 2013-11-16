@@ -29,6 +29,24 @@ class Entity
     # puts "#{@id}: #{msg}\n"
   end
 
+def move(gravity_x, gravity_y)
+    delta_x = gravity_x != 0 ? gravity_x / gravity_x.abs : 0
+    delta_y = gravity_y != 0 ? gravity_y / gravity_y.abs : 0
+
+    dbg("delta_x: #{delta_x}, delta_y: #{delta_y}")
+
+    new_x = delta_x + @x
+    new_y = delta_y + @y
+
+    if new_x > @map.width - 1
+      new_x = @map.width - 1
+    end
+    if new_y > @map.height - 1
+      new_y = @map.height - 1
+    end
+
+    @map.pos(self, new_x, new_y)
+  end
 end
 
 class Zombie < Entity
@@ -59,24 +77,8 @@ class Human < Entity
     end
     dbg("gravity_x: #{gravity_x}, gravity_y: #{gravity_y}")
 
-    delta_x = gravity_x != 0 ? gravity_x / gravity_x.abs : 0
-    delta_y = gravity_y != 0 ? gravity_y / gravity_y.abs : 0
-
-    dbg("delta_x: #{delta_x}, delta_y: #{delta_y}")
-
-    new_x = delta_x + @x
-    new_y = delta_y + @y
-
-    if new_x > @map.width - 1
-      new_x = @map.width - 1
-    end
-    if new_y > @map.height - 1
-      new_y > @map.height - 1
-    end
-
-    @map.move(self, new_x, new_y)
+    move(gravity_x, gravity_y)
   end
-
 end
 
 
