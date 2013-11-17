@@ -10,15 +10,15 @@ def distance(x1, y1, x2, y2)
 end
 
 class Map
-  attr_reader :height, :width, :map
+  attr_reader :height, :width, :grid
   def initialize(height, width)
     @height = height
     @width = width
-    @map = []
+    @grid = []
 
-    # init map
+    # init grid
     (0..@width).each do |x|
-      @map[x] = []
+      @grid[x] = []
     end
 
     @entities = []
@@ -41,15 +41,15 @@ class Map
     end
 
     # collision detection
-    if @map[x][y] && @map[x][y] != entity
-      raise MapCollisionError.new("#{entity.id} moved to collide with #{@map[x][y].id}")
+    if @grid[x][y] && @grid[x][y] != entity
+      raise MapCollisionError.new("#{entity.id} moved to collide with #{@grid[x][y].id}")
     end
 
     if entity.on_map?
-      @map[entity.x][entity.y] = nil
+      @grid[entity.x][entity.y] = nil
     end
 
-    @map[x][y] = entity
+    @grid[x][y] = entity
     entity.pos(x, y)
 
     return true
@@ -78,7 +78,7 @@ class Map
 
   def neighbors(x, y)
     n = neighborhood(x, y).map do |pt| 
-      z = @map[pt[0]][pt[1]]
+      z = @grid[pt[0]][pt[1]]
       z if z.is_a? Entity
     end
     n.delete_if {|e| !e}
@@ -90,8 +90,8 @@ class Map
 
     for y in (@height - 1).downto(0)
       for x in 0..(@width - 1)
-        if @map[x][y]
-          s += @map[x][y].char
+        if @grid[x][y]
+          s += @grid[x][y].char
         else 
           s += "."
         end

@@ -43,7 +43,7 @@ def move(gravity_x, gravity_y)
     new_y = delta_y + @y
 
     # collision detection
-    if @map.map[new_x][new_y] then return false end
+    if @map.grid[new_x][new_y] then return false end
 
     # boundary detection
     if new_x > @map.width - 1
@@ -82,8 +82,8 @@ class Zombie < Entity
 
     for y in 0..(@map.width - 1)
       for x in 0..(@map.height - 1)
-        if @map.map[x][y].is_a? Human
-          bandit = @map.map[x][y]
+        if @map.grid[x][y].is_a? Human
+          bandit = @map.grid[x][y]
           dist = distance(x, y, @x, @y)
           # dbg("found #{bandit.id} at [#{x}][#{y}] distance #{dist}")
           if dist < target_dist
@@ -115,7 +115,7 @@ class Human < Entity
 
     for y in 0..(@map.width - 1)
       for x in 0..(@map.height - 1)
-        if @map.map[x][y].is_a? Zombie
+        if @map.grid[x][y].is_a? Zombie
           if x < @x
             gravity_x += 1
           elsif x > @x
