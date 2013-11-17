@@ -10,11 +10,12 @@ def distance(x1, y1, x2, y2)
 end
 
 class Map
-  attr_reader :height, :width, :grid
+  attr_reader :height, :width, :grid, :entities
   def initialize(width, height)
     @width = width
     @height = height
     @grid = []
+    @entities = []
 
     # init grid
     (0..@width).each do |x|

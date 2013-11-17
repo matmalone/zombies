@@ -86,24 +86,17 @@ class Zombie < Entity
     target = nil
     target_dist = Fixnum.max
 
-    for x in 0..(@map.width - 1)
-      for y in 0..(@map.height - 1)
-        neighbor = @map.grid[x][y]
-        if neighbor.is_a?(Human) && !neighbor.is_killed
-          bandit = @map.grid[x][y]
-          dist = distance(x, y, @x, @y)
-          # dbg("found #{bandit.id} at [#{x}][#{y}] distance #{dist}")
-          if dist < target_dist
-            target = bandit
-            target_dist = dist
-          end
+    @map.entities.each do |bogey|
+      if bogey.is_a?(Human) && !bogey.is_killed
+        dist = distance(bogey.x, bogey.y, @x, @y)
+        if dist < target_dist
+          target = bogey
+          target_dist = dist
         end
       end
     end
 
     if target
-      # dbg("targeting #{target.id} at [#{target.x}][#{target.y}] distance #{  target_dist}")
-
       gravity_x = target.x - @x
       gravity_y = target.y - @y
       move(gravity_x, gravity_y)
