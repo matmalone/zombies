@@ -36,30 +36,33 @@ class Entity
   end
 
 def move(gravity_x, gravity_y)
-    delta_x = gravity_x != 0 ? gravity_x / gravity_x.abs : 0
-    delta_y = gravity_y != 0 ? gravity_y / gravity_y.abs : 0
+  # dead people don't move!
+  if is_killed then return end
 
-    new_x = delta_x + @x
-    new_y = delta_y + @y
+  delta_x = gravity_x != 0 ? gravity_x / gravity_x.abs : 0
+  delta_y = gravity_y != 0 ? gravity_y / gravity_y.abs : 0
 
-    # collision detection
-    if @map.grid[new_x][new_y] then return false end
+  new_x = delta_x + @x
+  new_y = delta_y + @y
 
-    # boundary detection
-    if new_x > @map.width - 1
-      new_x = @map.width - 1
-    end
-    if new_x < 0
-      new_x = 0
-    end
-    if new_y > @map.height - 1
-      new_y = @map.height - 1
-    end
-    if new_y < 0
-      new_y = 0
-    end
+  # collision detection
+  if @map.grid[new_x][new_y] then return false end
 
-    @map.pos(self, new_x, new_y)
+  # boundary detection
+  if new_x > @map.width - 1
+    new_x = @map.width - 1
+  end
+  if new_x < 0
+    new_x = 0
+  end
+  if new_y > @map.height - 1
+    new_y = @map.height - 1
+  end
+  if new_y < 0
+    new_y = 0
+  end
+
+  @map.pos(self, new_x, new_y)
   end
 end
 
@@ -71,18 +74,22 @@ class Zombie < Entity
 
   def turn()
     super
-
-    # kill any adjacent humans
-    nbh = @map.neighborhood(x, y)
-    @map.neighbors(x, y).each {|n| puts "neighbor: #{n.id}"}
-
+    # get the list of neighbors
+    condemned = @map.neighbors(x, y).
+      # but just the living humans
+      select { |neighbor| neighbor.is_a?(Human) && !neighbor.is_killed }.
+      # pick 1 at random
+      sample(ZOMBIE_KILLER_PER_TICK).
+      # and kill him
+      each { |h| h.kill }
 
     target = nil
     target_dist = Fixnum.max
 
     for y in 0..(@map.width - 1)
       for x in 0..(@map.height - 1)
-        if @map.grid[x][y].is_a? Human
+        neighbor = @map.grid[x][y]
+        if neighbor.is_a?(Human) && !neighbor.is_killed
           bandit = @map.grid[x][y]
           dist = distance(x, y, @x, @y)
           # dbg("found #{bandit.id} at [#{x}][#{y}] distance #{dist}")
@@ -94,11 +101,13 @@ class Zombie < Entity
       end
     end
 
-    # dbg("targeting #{target.id} at [#{target.x}][#{target.y}] distance #{  target_dist}")
+    if target
+      # dbg("targeting #{target.id} at [#{target.x}][#{target.y}] distance #{  target_dist}")
 
-    gravity_x = target.x - @x
-    gravity_y = target.y - @y
-    move(gravity_x, gravity_y)
+      gravity_x = target.x - @x
+      gravity_y = target.y - @y
+      move(gravity_x, gravity_y)
+    end
   end
 end
 

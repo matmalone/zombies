@@ -72,8 +72,8 @@ class Map
     nbh << [x + 1, y]
     nbh << [x + 1, y + 1]
 
-    nbh.delete_if {|pt| pt[0] < 0 || pt[0] > @width - 1 || 
-      pt[1] < 0 || pt[1] > @height - 1}
+    nbh.delete_if { |pt| pt[0] < 0 || pt[0] > @width - 1 || 
+      pt[1] < 0 || pt[1] > @height - 1 }
   end
 
   def neighbors(x, y)
@@ -81,7 +81,7 @@ class Map
       z = @grid[pt[0]][pt[1]]
       z if z.is_a? Entity
     end
-    n.delete_if {|e| !e}
+    n.delete_if { |e| !e }
 
   end
 

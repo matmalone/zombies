@@ -4,6 +4,8 @@ require_relative 'map'
 require_relative 'zombie'
 require_relative 'util'
 
+ZOMBIE_KILLER_PER_TICK = 1
+
 puts "Welcome to zombies!\n"
 
 map = Map.new(30, 30)
@@ -17,10 +19,10 @@ human2 = Human.new(:human2, map, {:char => '2'})
 
 map.add(zombie1, 9, 0)
 # map.add(zombie2, 20, 10)
-map.add(zombie3, 9, 4)
+map.add(zombie3, 9, 1)
 
-map.add(human1, 0, 0)
-map.add(human2, 5, 6)
+map.add(human1, 0, 3)
+map.add(human2, 5, 0)
 
 (0..100).each do |i|
   puts map
