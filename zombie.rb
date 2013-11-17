@@ -1,11 +1,12 @@
 class Entity
-  attr_reader :id, :x, :y
+  attr_reader :id, :x, :y, :is_killed
   def initialize(id, map, opts = {})
     @id = id
     @opts = opts
     @char = @opts[:char]
     @map = map
     @x = @y = nil
+    @is_killed = false
   end
 
   def char
@@ -23,6 +24,11 @@ class Entity
 
   def turn()
     # dbg("i am at #{@x}:#{@y}")
+  end
+
+  def kill()
+    @is_killed = true
+    @char = 'K'
   end
 
   def dbg(msg)
@@ -65,6 +71,11 @@ class Zombie < Entity
 
   def turn()
     super
+
+    # kill any adjacent humans
+    nbh = @map.neighborhood(x, y)
+    @map.neighbors(x, y).each {|n| puts "neighbor: #{n.id}"}
+
 
     target = nil
     target_dist = Fixnum.max

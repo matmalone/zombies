@@ -15,11 +15,11 @@ zombie3 = Zombie.new(:zombie3, map)
 human1 = Human.new(:human1, map, {:char => '1'})
 human2 = Human.new(:human2, map, {:char => '2'})
 
-map.add(zombie1, 2, 0)
-map.add(zombie2, 20, 10)
+map.add(zombie1, 9, 0)
+# map.add(zombie2, 20, 10)
 map.add(zombie3, 9, 4)
 
-map.add(human1, 2, 8)
+map.add(human1, 0, 0)
 map.add(human2, 5, 6)
 
 (0..100).each do |i|
