@@ -8,7 +8,7 @@ ZOMBIE_KILLER_PER_TICK = 1
 
 puts "Welcome to zombies!\n"
 
-map = Map.new(30, 30)
+map = Map.new(60, 30)
 
 zombie1 = Zombie.new(:zombie1, map)
 zombie2 = Zombie.new(:zombie2, map)
@@ -21,7 +21,7 @@ map.add(zombie1, 9, 0)
 # map.add(zombie2, 20, 10)
 map.add(zombie3, 9, 1)
 
-map.add(human1, 0, 3)
+map.add(human1, 9, 6)
 map.add(human2, 5, 0)
 
 (0..100).each do |i|

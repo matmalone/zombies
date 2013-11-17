@@ -86,8 +86,8 @@ class Zombie < Entity
     target = nil
     target_dist = Fixnum.max
 
-    for y in 0..(@map.width - 1)
-      for x in 0..(@map.height - 1)
+    for x in 0..(@map.width - 1)
+      for y in 0..(@map.height - 1)
         neighbor = @map.grid[x][y]
         if neighbor.is_a?(Human) && !neighbor.is_killed
           bandit = @map.grid[x][y]
@@ -134,8 +134,8 @@ class Human < Entity
   def turn_living
     gravity_x = gravity_y = 0
 
-    for y in 0..(@map.width - 1)
-      for x in 0..(@map.height - 1)
+    for x in 0..(@map.width - 1)
+      for y in 0..(@map.height - 1)
         if @map.grid[x][y].is_a? Zombie
           if x < @x
             gravity_x += 1

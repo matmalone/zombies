@@ -11,9 +11,9 @@ end
 
 class Map
   attr_reader :height, :width, :grid
-  def initialize(height, width)
-    @height = height
+  def initialize(width, height)
     @width = width
+    @height = height
     @grid = []
 
     # init grid
