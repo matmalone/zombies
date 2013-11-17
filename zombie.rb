@@ -119,7 +119,19 @@ class Human < Entity
 
   def turn()
     super
+    if @is_killed then turn_dead
+    else turn_living end
+  end
 
+  def turn_dead
+    @turn_timer -= 1
+    if @turn_timer <= 0
+      # turn into a zombie
+      @map.delete(@x, @y) # delete reference to myself
+      @map.add(Zombie.new(:turned, @map), @x, @y) # create a new zombie at our current position
+    end
+  end
+  def turn_living
     gravity_x = gravity_y = 0
 
     for y in 0..(@map.width - 1)
@@ -140,6 +152,11 @@ class Human < Entity
     end
 
     move(gravity_x, gravity_y)
+  end
+
+  def kill
+    super
+    @turn_timer = rand(10)
   end
 end
 

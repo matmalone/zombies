@@ -82,7 +82,11 @@ class Map
       z if z.is_a? Entity
     end
     n.delete_if { |e| !e }
+  end
 
+  def delete(x, y)
+    @entities.delete(@grid[x][y])
+    @grid[x][y] = nil
   end
 
   def to_s
