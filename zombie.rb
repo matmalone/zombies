@@ -48,9 +48,6 @@ def move(gravity_x, gravity_y)
   new_x = delta_x + @x
   new_y = delta_y + @y
 
-  # collision detection
-  if @map.grid[new_x][new_y] then return false end
-
   # boundary detection
   if new_x > @map.width - 1
     new_x = @map.width - 1
@@ -64,6 +61,9 @@ def move(gravity_x, gravity_y)
   if new_y < 0
     new_y = 0
   end
+
+  # collision detection
+  if @map.grid[new_x][new_y] then return false end
 
   @map.pos(self, new_x, new_y)
   end
