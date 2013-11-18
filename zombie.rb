@@ -39,6 +39,9 @@ def move(gravity_x, gravity_y)
   # dead people don't move!
   if is_killed then return end
 
+  if gravity_x.abs > gravity_y.abs * 2 then gravity_y = 0
+  elsif gravity_y.abs > gravity_x.abs * 2 then gravity_x = 0 end
+
   delta_x = gravity_x != 0 ? gravity_x / gravity_x.abs : 0
   delta_y = gravity_y != 0 ? gravity_y / gravity_y.abs : 0
 
@@ -88,7 +91,7 @@ class Zombie < Entity
 
     @map.entities.each do |bogey|
       if bogey.is_a?(Human) && !bogey.is_killed
-        dist = distance(bogey.x, bogey.y, @x, @y)
+        dist = distance_sq(bogey.x, bogey.y, @x, @y)
         if dist < target_dist
           target = bogey
           target_dist = dist
@@ -127,23 +130,23 @@ class Human < Entity
   def turn_living
     gravity_x = gravity_y = 0
 
-    for x in 0..(@map.width - 1)
-      for y in 0..(@map.height - 1)
-        if @map.grid[x][y].is_a? Zombie
-          if x < @x
-            gravity_x += 1
-          elsif x > @x
-            gravity_x -= 1
-          end
-          if y < @y
-            gravity_y += 1
-          elsif y > @y
-            gravity_y -= 1
-          end
+    @map.entities.each do |bogey|
+      if bogey.is_a? Zombie
+        distance = Math.sqrt(distance_sq(bogey.x, bogey.y, @x, @y))
+        if bogey.x < @x
+          gravity_x += 1 / distance
+        elsif bogey.x > @x
+          gravity_x -= 1 / distance
         end
-      end
+        if bogey.y < @y
+          gravity_y += 1 / distance
+        elsif bogey.y > @y
+          gravity_y -= 1 / distance
+        end
+      end      
     end
 
+    # puts "#{gravity_x},#{gravity_y}"
     move(gravity_x, gravity_y)
   end
 

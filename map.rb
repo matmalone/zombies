@@ -3,7 +3,7 @@ end
 class MapCollisionError < RuntimeError
 end
 
-def distance(x1, y1, x2, y2)
+def distance_sq(x1, y1, x2, y2)
   dx = (x2 - x1);
   dy = (y2 - y1);
   dist = dx * dx + dy * dy;
