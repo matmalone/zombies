@@ -2,7 +2,12 @@
 
 https://github.com/matmalone/zombies
 
-Trivial AI experiment.
+A trivial AI simulation of a zombie apocalypse. A number of initial 
+zombies and humans are randomly placed around a map. The number of 
+zombies and humans, and the size of the map are controlled by 
+variables in `main.rb`.
+
+_____________________________________________________________________
 
 Copyright (C) 2013 Mat Malone
 
