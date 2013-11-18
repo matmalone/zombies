@@ -25,14 +25,31 @@ class Map
     @entities = []
   end
 
+  def has_living()
+    for e in @entities
+      return true if e.is_a?(Human)
+    end
+    return false
+  end
+
   def add(entity, x, y)
     @entities << entity
 
     pos(entity, x, y)
   end
 
-  def pos(entity, x, y)
+  # finds a random, unoccupied point on the map
+  def get_free()
+    tries = 0
+    while true
+      tries += 1
+      x = rand(@width - 1)
+      y = rand(@height - 1)
+      return [x, y] if !@grid[x][y]
+    end
+  end
 
+  def pos(entity, x, y)
     # bounds checking
     if x >= @width || x < 0
       raise MapBoundaryError.new("x out of bounds")
@@ -43,7 +60,7 @@ class Map
 
     # collision detection
     if @grid[x][y] && @grid[x][y] != entity
-      raise MapCollisionError.new("#{entity.id} moved to collide with #{@grid[x][y].id}")
+      raise MapCollisionError.new("#{entity.id} moved to collide with #{@grid[x][y].id} at [#{x},#{y}]")
     end
 
     if entity.on_map?

@@ -82,7 +82,7 @@ class Zombie < Entity
       # but just the living humans
       select { |neighbor| neighbor.is_a?(Human) && !neighbor.is_killed }.
       # pick 1 at random
-      sample(ZOMBIE_KILLER_PER_TICK).
+      sample(ZOMBIE_KILLS_PER_TICK).
       # and kill him
       each { |h| h.kill }
 

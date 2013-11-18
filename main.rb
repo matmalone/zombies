@@ -4,28 +4,38 @@ require_relative 'map'
 require_relative 'zombie'
 require_relative 'util'
 
-ZOMBIE_KILLER_PER_TICK = 1
+ZOMBIE_KILLS_PER_TICK = 1
 
 puts "Welcome to zombies!\n"
 
-map = Map.new(60, 38)
+width = 160
+height = 38
+map = Map.new(width, height)
 
-zombie1 = Zombie.new(:zombie1, map)
-zombie2 = Zombie.new(:zombie2, map)
-zombie3 = Zombie.new(:zombie3, map)
+zombie_count = 5
+human_count = 100
 
-human1 = Human.new(:human1, map, {:char => '1'})
-human2 = Human.new(:human2, map, {:char => '2'})
+(1..zombie_count).each do |i|
+  zombie = Zombie.new("zombie#{i}", map)
+  x, y = map.get_free
+  map.add(zombie, x, y)
+end
 
-map.add(zombie1, 10, 0)
-map.add(zombie2, 10, 1)
-map.add(zombie3, 10, 37)
+(1..human_count).each do |i|
+  human = Human.new("human#{i}", map)
+  x, y = map.get_free
+  map.add(human, x, y)
+end
 
-map.add(human1, 11, 10)
-# map.add(human2, 5, 0)
+puts map
+sleep 5
 
-(0..100).each do |i|
+count = 0
+while map.has_living
+  count += 1
   puts map
   map.turn
   sleep(0.1)
 end
+
+puts "Done after #{count} turns."
